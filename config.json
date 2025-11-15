@@ -1,0 +1,12 @@
+{
+  "waAdmin": "6281234567890",
+  "onchainAddrs": {
+    "bsc": "0x290a91c48dba8b5f46480fdbe27e2318c7b53bcf",
+    "eth": "0x290a91c48dba8b5f46480fdbe27e2318c7b53bcf",
+    "matic": "0x290a91c48dba8b5f46480fdbe27e2318c7b53bcf"
+  },
+  "exchangeIds": {
+    "binance": "BINANCE-EX-123",
+    "bybit": "BYBIT-EX-456"
+  }
+}

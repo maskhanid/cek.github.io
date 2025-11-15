@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>MasKhan Convert — Premium</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind (optional) -->
+  <script src="https://cdn.tailwindcss.com" defer></script>
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body class="premium-bg text-white">
+
+  <!-- Ambient decorative background (subtle animated gradient + noise) -->
+  <div class="ambient-bg" aria-hidden="true"></div>
+
+  <main class="container">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">
+          <!-- simple logo glyph -->
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true"><defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#6c5ce7"/><stop offset="1" stop-color="#4e9af1"/></linearGradient></defs><rect width="24" height="24" rx="6" fill="url(#g1)"></rect><path d="M7 12h10M7 8h6M7 16h10" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="brand-text">
+          <div class="title">MasKhan Convert</div>
+          <div class="subtitle">Crypto • Pulsa • E-Wallet — Premium UI</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="openHistory" class="icon-btn" title="Riwayat">Riwayat</button>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="panel-left">
+
+        <!-- Mode select -->
+        <div class="field">
+          <label class="label">Mode</label>
+          <select id="modeSelect" class="select">
+            <option value="crypto">Crypto</option>
+            <option value="pulsa">Pulsa</option>
+            <option value="ewallet">E-Wallet</option>
+          </select>
+        </div>
+
+        <!-- Crypto block -->
+        <div id="cryptoSection" class="card card-glass">
+          <h3 class="card-title">Crypto</h3>
+
+          <div class="row">
+            <div class="field flex-1">
+              <label class="label">Tujuan</label>
+              <select id="exchangeSelect" class="select">
+                <option value="" disabled selected>Pilih tujuan (pilih exchange atau wallet)</option>
+                <option value="binance">Binance</option>
+                <option value="bybit">Bybit</option>
+                <option value="onchain">Wallet (On-chain)</option>
+              </select>
+            </div>
+            <div class="network-wrap ml-3 hidden" id="networkWrap">
+              <label class="label">Network</label>
+              <select id="networkSelect" class="select small">
+                <option value="" disabled selected>Pilih</option>
+                <option value="bsc">BSC</option>
+                <option value="eth">Ethereum</option>
+                <option value="matic">Matic</option>
+                <option value="arbitrum">Arbitrum</option>
+                <option value="avax">Avalanche</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="field flex-1">
+              <label class="label">Nominal (USD)</label>
+              <select id="usdSelect" class="select">
+                <option value="" disabled selected>Pilih nominal</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="custom">Ketik manual...</option>
+              </select>
+            </div>
+            <div class="ml-3 flex-shrink-0" style="align-self:end">
+              <button id="cryptoMaxBtn" class="btn-outline">MAX</button>
+            </div>
+          </div>
+
+          <div id="usdCustomWrap" class="hidden mt-3">
+            <input id="usdCustomInput" type="number" class="input" placeholder="Masukkan USD — contoh: 12.5" />
+          </div>
+
+          <div class="row mt-4 gap-2">
+            <button id="calcCryptoBtn" class="btn btn-primary btn-lg flex-1">Hitung</button>
+            <button id="clearCryptoBtn" class="btn btn-ghost">Reset</button>
+          </div>
+        </div>
+
+        <!-- Pulsa -->
+        <div id="pulsaSection" class="card card-glass hidden mt-4">
+          <h3 class="card-title">Pulsa</h3>
+
+          <div class="row">
+            <div class="field flex-1">
+              <label class="label">Operator</label>
+              <select id="pulsaOperator" class="select">
+                <option value="" disabled selected>Pilih operator</option>
+                <option value="telkomsel">Telkomsel</option>
+                <option value="xl">XL / Axis</option>
+                <option value="indosat">Indosat</option>
+                <option value="tri">Tri</option>
+                <option value="smartfren">Smartfren</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="field flex-1">
+              <label class="label">Nominal (Rp)</label>
+              <input id="pulsaAmount" type="number" class="input" placeholder="Contoh: 15000" />
+            </div>
+            <div class="field ml-3 flex-1">
+              <label class="label">Nomor Tujuan</label>
+              <input id="pulsaTarget" type="text" class="input" placeholder="08xxxxxxxxxx" />
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <button id="pulsaConfirmBtn" class="btn btn-primary btn-lg flex-1">Konfirmasi Pulsa</button>
+            <button id="pulsaClearBtn" class="btn btn-ghost">Reset</button>
+          </div>
+        </div>
+
+        <!-- E-Wallet -->
+        <div id="ewalletSection" class="card card-glass hidden mt-4">
+          <h3 class="card-title">E-Wallet</h3>
+
+          <div class="row">
+            <div class="field flex-1">
+              <label class="label">Nominal (Rp)</label>
+              <input id="ewalletAmount" class="input" type="number" placeholder="Minimal 2000" />
+            </div>
+            <div class="field ml-3 flex-1">
+              <label class="label">Tujuan (No / ID)</label>
+              <input id="ewalletTarget" class="input" type="text" placeholder="Nomor atau ID tujuan" />
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <button id="ewalletConfirmBtn" class="btn btn-primary btn-lg flex-1">Konfirmasi E-Wallet</button>
+            <button id="ewalletClearBtn" class="btn btn-ghost">Reset</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- right column: preview + notes -->
+      <aside class="panel-right">
+        <div class="card card-glass sticky">
+          <div class="preview-hero">
+            <div class="preview-title">Preview & Summary</div>
+            <div class="preview-sub">Harga akan dikunci pada saat preview</div>
+          </div>
+
+          <div id="previewCard" class="result-card hidden">
+            <div class="rate-row">
+              <div class="rate-left">
+                <div class="rate-label">Rate</div>
+                <div id="previewRate" class="rate-value">-</div>
+              </div>
+              <div class="rate-right">
+                <div class="rate-label">Updated</div>
+                <div id="previewRateTime" class="rate-time">-</div>
+              </div>
+            </div>
+
+            <div class="breakdown mt-3">
+              <div class="line"><div class="muted">Gross</div><div id="previewGross">-</div></div>
+              <div class="line"><div class="muted">Fee</div><div id="previewFee">-</div></div>
+              <hr class="sep" />
+              <div class="line total"><div>Total Bayar</div><div id="previewNet"><strong>-</strong></div></div>
+            </div>
+
+            <div class="row mt-4">
+              <button id="confirmPreviewBtn" class="btn btn-primary flex-1">Konfirmasi via WA</button>
+              <button id="cancelPreviewBtn" class="btn btn-ghost">Batal</button>
+            </div>
+            <div id="previewNote" class="preview-note">Harga dikunci. Jika ingin ubah, tekan Batal.</div>
+          </div>
+
+          <div class="hint mt-4 muted small">
+            <div>Tip: Klik <strong>Hitung</strong> untuk melihat estimasi pembayaran. Preview akan dikunci selama 10 menit.</div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="foot">
+      <div class="muted small">© MasKhan — tampil premium oleh asisten</div>
+    </footer>
+  </main>
+
+  <!-- history overlay -->
+  <div id="historyOverlay" class="history-overlay hidden" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <div class="overlay-card">
+      <div class="overlay-head">
+        <h4>Riwayat Transaksi</h4>
+        <button id="closeHistory" class="btn-ghost">Tutup</button>
+      </div>
+      <div id="historyList" class="history-list"></div>
+    </div>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
